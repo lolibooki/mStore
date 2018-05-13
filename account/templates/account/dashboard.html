@@ -1,0 +1,63 @@
+{% extends "base.html" %}
+{% load thumbnail %}
+
+
+{% block title %}خانه {% endblock %}
+{% block content %}
+
+<div id="home-content">
+    <div id="product-list">
+        <h1>انبــــــــــار</h1>
+        {% for product in products %}
+            <div class="product">
+                {% thumbnail product.image "80x80" crop="100%" format="PNG" as im %}
+                        <img src="{{ im.url }}">
+                {% endthumbnail %}
+                <div class="info">
+                    {{ product.name }}
+                </div>
+                <div class="price">
+                    <p> تومان</p>
+                    {{ product.price }}
+                </div>
+                <div class="count">
+                    <p> عدد </p>
+                    {{ product.count }}
+                </div>
+                <div class="number">
+                    <p>کدمحصول</p>
+                    {{ product.number }}
+                </div>
+            </div>
+        {% endfor %}
+    </div>
+    <div id="trans-list">
+        <h1>سفارشات</h1>
+        {% include "account/trans_ajax.html" %}
+    </div>
+</div>
+
+{% endblock %}
+
+
+{% block domready %}
+var trans_page = 1;
+var empty_page = false;
+var block_request = false;
+$(window).scroll(function() {
+    var margin = $(document).height() - $(window).height() - 200;
+    if ($(window).scrollTop() > margin && empty_page == false && block_request == false) {
+        block_request = true;
+        trans_page += 1;
+        $.get('?trans_page=' + trans_page, function(data) {
+            if(data == '') {
+                empty_page = true;
+            }
+            else {
+                block_request = false;
+                $('#trans-list').append(data);
+            }
+        });
+    }
+});
+{% endblock %}

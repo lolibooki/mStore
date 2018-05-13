@@ -1,0 +1,68 @@
+{% load thumbnail %}
+
+{% for trans in transactions %}
+    <div class="transaction">
+        <div class="trans_total">
+            <div class="trans-info">
+                <div class="number">
+                    <p> شماره پیگیری {{ trans.number }}</p>
+                </div>
+                <div class="shopper">
+                    <p> {{ trans.shopper.first_name }} {{ trans.shopper.name }} </p>
+                </div>
+                <div class="total-price">
+                    <p>{{ trans.total_price}} تومان</p>
+                </div>
+                <div class="address">
+                    <p>{{ trans.shopper.address }}</p>
+                </div>
+                <div class="phone-number">
+                    <p>{{ trans.shopper.phone }}</p>
+                </div>
+                <div class="mobile-number">
+                    <p>{{ trans.shopper.mobile }}</p>
+                </div>
+            </div>
+
+            <div class="button">
+                {% if trans.accepted == False %}
+                    <div class="accept">
+                        <a href="{{ trans.accept_url }}"></a>
+                        <p>تایید</p>
+                    </div>
+
+                    <div class="reject">
+                        <a href="{{ trans.delete_url }}"></a>
+                        <p>لـــغو</p>
+                    </div>
+                    <div class="edit">
+                        <a href="{{ trans.edit_url }}"></a>
+                        <p> ویرایش</p>
+                    </div>
+                {% else %}
+                    <div class="done">
+                        <p>اتمام ارسال</p>
+                    </div>
+                {% endif %}
+            </div>
+
+
+        </div>
+        <div class="purchase">
+            {% for purchase in trans.purchases_in.all %}
+                <div class="purchase-item">
+                    <div class="info">
+                        {{ purchase.product }}
+                    </div>
+                    <div class="price">
+                        <p>{{ purchase.total_price }} تومان </p>
+                    </div>
+                    <div class="count">
+                        <p>{{ purchase.product_count }} عدد </p>
+                    </div>
+                </div>
+            {% endfor %}
+        </div>
+
+    </div>
+{% endfor %}

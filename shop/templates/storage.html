@@ -1,0 +1,52 @@
+{% extends "base.html" %}
+{% load thumbnail %}
+
+{% block content %}
+<div class="storage">
+    <div class="products">
+        {% for product in products %}
+            <div class="product">
+                <div class="product-info">
+                    {% thumbnail product.image "80x80" crop="100%" format="PNG" as im %}
+                            <img src="{{ im.url }}">
+                    {% endthumbnail %}
+                    <div class="info">
+                        {{ product.name }}
+                    </div>
+                    <div class="price">
+                        <p> تومان</p>
+                        {{ product.price }}
+                    </div>
+                    <div class="count">
+                        <p> عدد </p>
+                        {{ product.count }}
+                    </div>
+                    <div class="number">
+                        <p>کدمحصول</p>
+                        {{ product.number }}
+                    </div>
+                </div>
+                <div class="button">
+                        <div class="delete">
+                            <a href="{{ product.delete_url }}"></a>
+                        </div>
+                        <div class="edit">
+                            <a href="{{ product.edit_url }}"></a>
+                        </div>
+                </div>
+            </div>
+        {% endfor %}
+    </div>
+
+    <h1>اضافه کردن محصول جدید</h1>
+    <div class="product-form">
+        <form action="." method="post" enctype="multipart/form-data">
+            {{ product_form.as_p }}
+            {% csrf_token %}
+            <p><input type="submit" value="افزودن محصول جدید"></p>
+        </form>
+    </div>
+</div>
+
+
+{% endblock %}

@@ -1,0 +1,40 @@
+{% extends "base.html" %}
+{% load thumbnail %}
+
+{% block title %} ویرایش محصول{% endblock %}
+{% block content %}
+<div class="product-edit">
+    <h1>ویرایش محصول</h1>
+    <form action="." method="post" enctype="multipart/form-data">
+            <div class="product">
+                <div class="product-info">
+                    {% thumbnail product.image "80x80" crop="100%" format="PNG" as im %}
+                            <img src="{{ im.url }}">
+                    {% endthumbnail %}
+                    <div class="info">
+                        {{ product.name }}
+                    </div>
+                    <div class="number">
+                        <p>کدمحصول</p>
+                        {{ product.number }}
+                    </div>
+                    <div class="price">
+                        <p> تومان</p>
+                        {{product_edit_form.price }}
+                    </div>
+                    <div class="count">
+                        <p> عدد </p>
+                        {{ product_edit_form.count }}
+                    </div>
+                    <div class="image-edit">
+                        <p>ویرایش تصویر محصول</p>
+                        {{ product_edit_form.image }}
+                    </div>
+                </div>
+                <input type="submit" value="اتمام ویرایش">
+
+            </div>
+            {% csrf_token %}
+    </form>
+</div>
+{% endblock %}

@@ -1,0 +1,65 @@
+{% extends "base.html" %}
+{% load thumbnail %}
+
+{% block title %}ویرایش تراکنش {% endblock %}
+{% block content %}
+
+<div class="edit_transaction">
+<h1> ویرایش تراکنش </h1>
+<form action="." method="post" enctype="multipart/form-data">
+
+        {% with trans=transaction %}
+            <div class="transaction">
+                <div class="trans_total">
+                    <div class="trans-info">
+                        <div class="number">
+                            <p> شماره پیگیری {{ trans.number }}</p>
+                        </div>
+                        <div class="shopper">
+                            <p> {{ trans.shopper.first_name }} {{ trans.shopper.name }} </p>
+                        </div>
+                        <div class="total-price">
+                            <p>{{ trans.total_price}} تومان</p>
+                        </div>
+                        <div class="address">
+                            <p>نشانی : </p>
+                            {{ customer_edit_form.address }}
+                        </div>
+                        <div class="phone-number">
+                            <p>شماره ثابت : </p>
+                            {{customer_edit_form.phone }}
+                        </div>
+                        <div class="mobile-number">
+                            <p>شماره همراه :</p>
+                            {{customer_edit_form.mobile }}
+                        </div>
+                    </div>
+                    <input type="submit" value="اتمام ویرایش">
+                </div>
+                <div class="purchase">
+                    {% for key,value in purchase_forms_dict.items %}
+                        <div class="purchase-item">
+                            <div class="info">
+                                {{ key.product }}
+                            </div>
+                            <div class="price">
+                                <p>{{ key.total_price }} تومان </p>
+
+                            </div>
+                            <div class="form-count">
+                                <p> عدد </p>
+                                {{ value.product_count }}
+                            </div>
+                        </div>
+                    {% endfor %}
+                </div>
+
+            </div>
+        {% endwith %}
+    {% csrf_token %}
+</form>
+</div>
+
+
+{% endblock %}
+
