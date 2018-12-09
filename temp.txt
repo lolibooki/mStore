@@ -1,0 +1,360 @@
+صفحه آمار :
+
+
+1- نمایش آمار فروش انتخابی
+url : /statistic/get_stat
+
+request:
+{
+    'start_date':از تاریخ,
+    'end_date': تا تاریخ,
+    'product':نام محصول,
+    'category': دسته محصول,
+    'bot':بات,
+}
+
+response:
+{
+    'total_sell':فروش کل,
+    'table':[
+                {
+                    'date':تاریخ,
+                    'bale_sell':فروش بله,
+                    'gap_sell':فروش گب,
+                    'total': کل فروش
+                },
+                {
+                    'date':تاریخ,
+                    'bale_sell':فروش بله,
+                    'gap_sell':فروش گب,
+                    'total': کل فروش
+                },
+                {
+                    'date':تاریخ,
+                    'bale_sell':فروش بله,
+                    'gap_sell':فروش گب,
+                    'total': کل فروش
+                }
+            ]
+}
+
+صفحه انبار:
+
+1- ویرایش حدف یا اضافه کردن محصول
+url : /statistic/change
+
+request:
+{
+    اضافه کردن محصول #
+    'type':'add',
+    'name':نام محصول,
+    'category':دسته محصول,
+    'price':قیمت محصول,
+    'count':تعداد محصول,
+    'description':توضیحات,
+    'photo':عکس محصول,
+    'number':null,
+}
+{
+    ویرایش کردن محصول #
+    'type':'edit',
+    'name':نام محصول,
+    'category':دسته محصول,
+    'price':قیمت محصول,
+    'count':تعداد محصول,
+    'description':توضیحات,
+    'photo':عکس محصول,
+    'number':null,
+}
+{
+    حذف کردن محصول #
+    'type':'delete',
+    'number':null,
+}
+
+response:
+{
+    اضافه کردن محصول #
+    'status':'ok',
+    'name':نام محصول,
+    'category':دسته محصول,
+    'price':قیمت محصول,
+    'count':تعداد محصول,
+    'description':توضیحات,
+    'photo':عکس محصول,
+    'number':شماره محصول,
+}
+یا
+{
+    اضافه کردن محصول #
+    'status':'not_ok',
+    'name':بیام خطا,
+    'category':بیام خطا,
+    'price':بیام خطا,
+    'count':بیام خطا,
+    'description':بیام خطا,
+    'photo':بیام خطا,
+    'number':بیام خطا,
+}
+
+{
+    ویرایش کردن محصول #
+    'status':'ok',
+    'name':نام محصول,
+    'category':دسته محصول,
+    'price':قیمت محصول,
+    'count':تعداد محصول,
+    'description':توضیحات,
+    'photo':عکس محصول,
+    'number':شماره محصول,
+}
+یا
+{
+    ویرایش کردن محصول #
+    'status':'not_ok',
+    'name':بیام خطا,
+    'category':بیام خطا,
+    'price':بیام خطا,
+    'count':بیام خطا,
+    'description':بیام خطا,
+    'photo':بیام خطا,
+    'number':بیام خطا,
+}
+
+{
+    حذف کردن محصول #
+    'status':'ok',
+    'number':شماره محصول,
+}
+یا
+{
+    حذف کردن محصول #
+    'status':'not_ok',
+    'number':بیام خطا,
+}
+
+سایر :
+
+1- بروز رسانی فروش کل و فروش سی روز اخیر
+در صفحه آمار و میز کار
+url : /status/sell
+
+request:get
+
+response:
+{
+    'total_sell': فروش کل,
+    'last_30day_sell': فروش سی روز اخیر,
+}
+
+2- بروز رسانی خلاصه انبار
+اگر درون بخش فعال صفحه بود بروز رسانی انجام بگیرد
+url : status/warehouse_summary
+
+request:get
+
+response:
+{
+    شماره محصول در تگ html نیز باید باشد تا راحتتر جست و جو انجام شود #
+    product_uuid(همون شماره محصول): {
+                                        'name':نام محصول,
+                                        'status': وضعیت محصول که زرده با قرمزه,
+                                        'count': تعداد کنونی,
+
+    .
+    .
+    .
+}
+
+3- بروز رسانی تراکنش ها
+url : status/update_trans
+
+request:get
+
+response:
+{
+    product_uuid(همون شماره محصول):
+        {
+            'status':'new',
+            'name':نام خریدار,
+            'phone':شماره ثابت,
+            'mobile': شماره همراه,,
+            'address': نشانی,
+            'total_price': مبلغ کل تراکنش,
+            'purchases':
+                [
+                    {
+                        'product_name':نام محصول,
+                        'count':تعداد,
+                        'price':قیمت واحد محصول,
+                        'sold_price':فروش کل این محصول,
+                    },
+                    {
+                        'product_name':نام محصول,
+                        'count':تعداد,
+                        'price':قیمت واحد محصول,
+                        'sold_price':فروش کل این محصول,
+                    },
+                    .
+                    .
+                    .
+                ]
+
+        },
+    product_uuid(همون شماره محصول):
+        {
+            'status':'accepted'
+        },
+    product_uuid(همون شماره محصول):
+        {
+            'status':'paid'
+        },
+    product_uuid(همون شماره محصول):
+        {
+            'status':'searching_courier'
+        },
+    product_uuid(همون شماره محصول):
+        {
+            'status':'coming_courier'
+        },
+    product_uuid(همون شماره محصول):
+        {
+            'status':'sending_courier'
+        },
+    product_uuid(همون شماره محصول):
+        {
+            'status':'delivered_courier'
+        },
+    product_uuid(همون شماره محصول):
+        {
+            'status':'courier_not_found'
+        },
+}
+
+صفحه میز کار:
+
+1- تغییر ویرایش یا حرف تراکنش
+url : transaction/change
+
+request:
+{
+    'number': شماره تراکنش,
+    'type':'accept'
+}
+یا
+{
+    'number': شماره تراکنش,
+    'type':'delete'
+}
+یا
+{
+    'number': شماره تراکنش,
+    'type':'edit'
+    'status':'new',
+    'name':نام خریدار,
+    'phone':شماره ثابت,
+    'mobile': شماره همراه,,
+    'address': نشانی,
+    'total_price': مبلغ کل تراکنش,
+    'purchases':
+        [
+            {
+                'product_name':نام محصول,
+                'count':تعداد,
+                'price':قیمت واحد محصول,
+                'sold_price':فروش کل این محصول,
+            },
+            {
+                'product_name':نام محصول,
+                'count':تعداد,
+                'price':قیمت واحد محصول,
+                'sold_price':فروش کل این محصول,
+            },
+            .
+            .
+            .
+        ]
+}
+
+response:
+{
+    # اگر تایید کرده بود
+    'number':شماره تراکنش,
+    'status': 'ok'
+}
+یا
+{
+    # اگر تایید کرده بود
+    'number':شماره تراکنش,
+    'status': 'not_ok'
+}
+
+{
+    # اگر حذف کرده بود
+    'number':شماره تراکنش,
+    'status': 'ok'
+}
+یا
+{
+    # اگر حذف کرده بود
+    'number':شماره تراکنش,
+    'status': 'not_ok'
+}
+
+{
+    # اگر ویرایش کرده بود
+    'number':شماره تراکنش,
+    'status': 'ok'
+    'name':نام خریدار,
+    'phone':شماره ثابت,
+    'mobile': شماره همراه,
+    'address': نشانی,
+    'total_price': مبلغ کل تراکنش,
+    'purchases':
+        [
+            {
+                'product_name':نام محصول,
+                'count':تعداد,
+                'price':قیمت واحد محصول,
+                'sold_price':فروش کل این محصول,
+            },
+            {
+                'product_name':نام محصول,
+                'count':تعداد,
+                'price':قیمت واحد محصول,
+                'sold_price':فروش کل این محصول,
+            },
+            .
+            .
+            .
+        ]
+}
+یا
+{
+    # اگر ویرایش کرده بود
+    'number':شماره تراکنش,
+    'status': 'not_ok'
+    'name':بیام خطا,
+    'phone':بیام خطا,
+    'mobile': بیام خطا,
+    'address': بیام خطا,
+    'total_price':بیام خطا,
+    'purchases':
+        [
+            {
+                'product_name':بیام خطا,
+                'count':بیام خطا,
+                'price':بیام خطا,
+                'sold_price':بیام خطا,
+            },
+            {
+                'product_name':بیام خطا,
+                'count':بیام خطا,
+                'price':بیام خطا,
+                'sold_price':بیام خطا,
+            },
+            .
+            .
+            .
+        ]
+}
